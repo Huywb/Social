@@ -53,7 +53,8 @@ const StoriesBar = () => {
                                         story.media_type == 'image' ?
                                         <img src={story.media_url} alt='' className='h-full w-full object-cover
                                         hover:scale-110 transition duration-500 opacity-70 hover:opacity-80'></img>:
-                                        <video></video>
+                                        <video src={story.media_url} className='h-full w-full object-cover
+                                        hover:scale-110 transition duration-500 opacity-70 hover:opacity-80'></video>
                                     }
                                 </div>
                             )
