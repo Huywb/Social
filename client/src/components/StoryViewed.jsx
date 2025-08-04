@@ -3,7 +3,34 @@ import React, { useEffect, useState } from 'react'
 
 const StoryViewed = ({viewStory, setViewStory}) => {
 
-    
+    const [progress,setProgress] = useState(0)
+
+    useEffect(()=>{
+        let timer, progressInterval;
+
+        if(viewStory && viewStory.media_type !== 'video'){
+            setProgress(0)
+
+            const duration = 10000;
+            const setTime = 100
+            let elapsed = 0
+
+            progressInterval = setInterval(()=>{
+                elapsed += setTime
+                setProgress((elapsed/ duration)*100)
+            },setTime)
+
+            timer = setTimeout(()=>{
+                setViewStory(null)
+            },duration)
+        }
+
+        return ()=>{
+            clearTimeout(timer)
+            clearInterval(progressInterval)
+        }
+    },[viewStory,setViewStory])
+
     const handleClose = ()=>{
         setViewStory(null)
     }
@@ -38,7 +65,7 @@ const StoryViewed = ({viewStory, setViewStory}) => {
     {/* Progress Bar */}
     <div className='absolute top-0 left-0 w-full h-1 bg-gray-700'>
         <div className='h-full bg-white transition-all duration-100 linear'
-        style={{width: '30%'}}>
+        style={{width: `${progress}%`}}>
 
         </div>
     </div>
