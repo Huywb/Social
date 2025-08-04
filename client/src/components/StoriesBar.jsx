@@ -3,6 +3,7 @@ import { dummyStoriesData } from '../assets/assets'
 import { Plus } from 'lucide-react'
 import moment from 'moment'
 import StoriesModel from './StoriesModel'
+import StoryViewed from './StoryViewed'
 
 const StoriesBar = () => {
     const [stories,setStories] = useState([])
@@ -40,7 +41,7 @@ const StoriesBar = () => {
             {/*Story card */}
             {
                 stories.map((story,index)=>(
-                    <div index={index} className={`relative rounded-lg shadow min-w-30 max-w-30 max-h-40
+                    <div onClick={()=>setViewStory(story)} index={index} className={`relative rounded-lg shadow min-w-30 max-w-30 max-h-40
                     cursor-pointer hover:shadow-lg transition-all duration-200 bg-gradient-to-b from-indigo-500
                     to-purple-600 hover:from-indigo-700 hover:to-pink-800 active:scale-95`}>
                         <img src={story.user.profile_picture} alt="" className='absolute size-8 top-3 left-3
@@ -68,8 +69,10 @@ const StoriesBar = () => {
         </div>
 
         {/* Add story model */}
-
         {showModel && <StoriesModel setShowModel={setShowModel} fetchStories={fetchStories}></StoriesModel>}
+        {/* View story model */}
+        {viewStory && <StoryViewed viewStory={viewStory} setViewStory={setViewStory}></StoryViewed>}
+    
     </div>
   )
 }
