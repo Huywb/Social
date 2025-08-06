@@ -59,7 +59,24 @@ const Profile = () => {
             </div>
           )}
 
-          
+          {/*Media */}
+          {activeTab === 'media' && (
+            <div className='flex  flex-wrap mt-6 max-w-6xl'>
+              {
+                posts.filter((post)=>post.image_urls.length > 0 ).map((post)=>(
+                  <>
+                  {post.image_urls.map((image,index)=>(
+                    <Link className='relative group' target='_blank' to={image} key={index}>
+                        <img src={image} key={index} className='-64 aspect-video object-cover' alt="" />
+                        <p className='absolute bottom-0 right-0 text-xs p-1 px-3 backdrop-blur-xl
+                        text-white opacity-0 group-hover:opacity-100 transition duration-300'>Posted {moment(post.createAt).fromNow()}</p>
+                    </Link>
+                  ))}
+                  </>
+                ))
+              }
+            </div>
+          )}
         </div>
       </div>
     </div>
