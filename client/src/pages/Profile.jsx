@@ -79,6 +79,8 @@ const Profile = () => {
           )}
         </div>
       </div>
+      
+      {showEdit &&  <p>Show profile Edit</p>}
     </div>
   ) : (<Loading></Loading>)
 }
