@@ -51,7 +51,30 @@ const Chatbox = () => {
               </div>
           </div>
         </div>
-        
+        <div className='px-4'>
+            <div className='flex items-center gap-3 pl-5 p-1.5 bg-white w-full max-w-xl mx-auto border
+            border-gray-200 shadow rounded-full mb-5'>
+                <input type="text" className='flex-1 outline-none text-slate-700' placeholder='Type a message....' 
+                onKeyDown={(e)=>e.key === 'Enter' && sendMessage()}
+                onChange={(e)=>setText(e.target.value)}
+                value={text} />
+
+                <label htmlFor="image">
+                  {
+                    image ? 
+                    <img src={URL.createObjectURL(image)} alt='' className='h-8 rounded'></img>:
+                    <ImageIcon className='size-7 text-gray-400 cursor-pointer'></ImageIcon>
+                  }
+                  <input type="file" id='image' accept='image/*' hidden 
+                  onChange={(e)=>setImage(e.target.files[0])}/>
+                </label>
+
+                <button onClick={sendMessage} className='bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-700
+                hover:to-purple-800 active:scale-95 cursor-pointer text-white p-2 rounded-full'>
+                  <SendHorizonal size={18}></SendHorizonal>
+                </button>
+            </div>
+        </div>
     </div>
   )
 }
