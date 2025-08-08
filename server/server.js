@@ -20,7 +20,7 @@ console.log("INNGEST_EVENT_KEY:", process.env.INNGEST_EVENT_KEY);
 console.log("INNGEST_SINGING_KEY:", process.env.INNGEST_SIGNING_KEY);
 
 
-app.get('/api/inngest',serve({client: inngest, functions}))
+app.use('/api/inngest',serve({client: inngest, functions}))
 
 const PORT = process.env.PORT || 4000
 
