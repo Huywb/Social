@@ -17,7 +17,7 @@ app.get('/',(req,res)=>{
 })
 console.log('Loaded functions:', functions.length);
 console.log("INNGEST_EVENT_KEY:", process.env.INNGEST_EVENT_KEY);
-console.log("INNGEST_SINGING_KEY:", process.env.INNGEST_SIGNING_KEY);
+console.log("INNGEST_SIGNING_KEY:", process.env.INNGEST_SIGNING_KEY);
 
 
 app.use("/api/inngest",serve({client: inngest, functions}))
