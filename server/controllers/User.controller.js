@@ -148,3 +148,28 @@ export const followUser = async(req,res)=>{
         
     }
 }
+
+{/*Un following User */}
+export const unFollowUser = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const {id} = req.body
+
+        const user = await User.findById(userId)
+
+        user.following = user.following.filter((user)=>user !== id)
+        await user.save()
+
+        const toUser = await User.findById(id)
+        user.followers = toUser.followers.filter((user)=>user !== userId)
+        await user.save()
+        
+        res.json({success:true, message:"You are unfollowing this user"})
+
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+        
+    }
+}
+
