@@ -5,6 +5,7 @@ import connectDB from './config/db.js'
 import {inngest,functions} from './inngest/index.js'
 import {serve} from 'inngest/express'
 import { clerkMiddleware } from '@clerk/express'
+import userRouter from './routes/userRoute.js'
 
 const app = express()
 
@@ -26,6 +27,8 @@ app.use("/api/inngest",(req,res,next)=>{
     console.log("📥 Received request from Inngest:", req.method, req.url, req.headers["user-agent"]);
   next();
 },serve({client: inngest, functions}))
+
+app.use("/api/user",userRouter)
 
 const PORT = process.env.PORT || 4000
 
