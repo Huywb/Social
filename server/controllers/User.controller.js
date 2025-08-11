@@ -120,3 +120,31 @@ export const findUserData = async(req,res)=>{
     }
 }
 
+{/*Get user followers */}
+
+export const followUser = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const {id} = req.body
+
+        const user = await User.findById(userId)
+
+        if(user.following.includes(id)){
+            return res.json({success:false, message:"You are already following this user"})
+        }
+
+        user.following.push(id)
+        await user.save()
+
+        const toUser = await User.findById(id)
+        toUser.followers.push(userId)
+        await toUser.save()
+
+        res.json({success:true, message:"You are following this user"})
+
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+        
+    }
+}
