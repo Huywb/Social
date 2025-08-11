@@ -96,3 +96,27 @@ export const updateUserData = async(req,res)=>{
     }
 }
 
+{/*Find user on username, email, full_name, location */}
+export const findUserData = async(req,res)=>{
+    try {
+     const {userId} = req.auth()
+     const {input} = req.body
+     
+     const allUsers = await User.find({
+        $or: [
+            {username: new RegExp(input,"i")},
+            {email: new RegExp(input,"i")},
+            {full_name: new RegExp(input,"i")},
+            {location: new RegExp(input,"i")}
+        ]
+     })
+
+     const filteredUsers = allUsers.filter(user=>user._id !== userId)
+
+     res.json({success:true, users: filteredUsers})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false, message:error.message})
+    }
+}
+
