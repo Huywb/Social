@@ -26,9 +26,6 @@ export const updateUserData = async(req,res)=>{
         const {userId} = req.auth()
         let {username,bio,location, full_name} = req.body
 
-        if(!username || !bio || !location || !full_name){
-           return res.json({success:false, message:"All fields are required"})
-        }
 
         const user = await User.findById(userId)
 
