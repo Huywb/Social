@@ -1,4 +1,5 @@
 import imageKit from "../config/imagekit.js"
+import Connection from "../models/Connection.js"
 import User from "../models/User.js"
 import fs, { stat } from 'fs'
 
@@ -170,3 +171,38 @@ export const unFollowUser = async(req,res)=>{
     }
 }
 
+{/*Send connection */}
+export const sendConnectionRequest = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const {id} = req.body
+
+        const last24Hours = new Date(Date.now() -24*60*80*1000)
+        const connectionRequests = await Connection.find({from_user_id : userId,created_at: {$gt: last24Hours}})
+        if(connectionRequests.length>=20){
+            return res.json({success: false, message: "You have sent more than 20 connection requests in the 24 hour"})
+        }
+
+        const connection = await Connection.findOne({
+            $or: [
+                {from_user_id: userId, to_user_id : id},
+                {from_user_id: id, to_user_id : userId},
+            ]
+        })
+
+        if(!connection){
+            await Connection.create({
+                from_user_id: userId,
+                to_user_id: id,
+            })
+
+            return res.json({success:true, message:"Connection request sent success"})
+        }else if(connection && connection.status === 'accepted'){
+            return res.json({success: false,message:"You are already connected with this user"})
+        }
+
+        return res.json({success:false, message:"Connect request pending"})
+    } catch (error) {
+        
+    }
+}
