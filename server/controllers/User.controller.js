@@ -183,6 +183,7 @@ export const sendConnectionRequest = async(req,res)=>{
             return res.json({success: false, message: "You have sent more than 20 connection requests in the 24 hour"})
         }
 
+
         const connection = await Connection.findOne({
             $or: [
                 {from_user_id: userId, to_user_id : id},
@@ -203,6 +204,7 @@ export const sendConnectionRequest = async(req,res)=>{
 
         return res.json({success:false, message:"Connect request pending"})
     } catch (error) {
-        
+         console.log(error)
+        res.json({success:false, message:error.message})
     }
 }
