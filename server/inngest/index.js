@@ -1,5 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
+import Connection from "../models/Connection.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "Social-2025",eventKey: process.env.INNGEST_EVENT_KEY,
@@ -69,6 +70,32 @@ const syncUserDeletion = inngest.createFunction(
             console.log('inngest error',error.message)
         }
         
+    }
+)
+
+
+
+const sendNewConnectionRequestReminder = inngest.createFunction(
+    {id: 'send-new-connection-request-reminder'},
+    {event: 'app/connection-request'},
+    async({event,step})=>{
+        const {connection} = event.data
+
+        await step.run('send-connection-request-email',async()=>{
+            const connection = await Connection.findById(connectionId).populate("from_user_id to_user_id")
+
+            const subject = `New connection request`
+            const body = `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                <h2> Hi ${connection.to_user_id.full_name},</h2>
+                <p>You have a new connection request from ${connection.from_user_id.full_name} - 
+                @${connection.from_user_id.username}</p>
+                <p>Click <a href="${process.env.FRONTEND_URL}/connections" style="color:#10b981;"</a> to accept or reject the request </p>
+                <br/>
+                <p>Thanks,<br/>Stay Connected</p>
+            </div>
+            `
+        })
     }
 )
 // Create an empty array where we'll export future Inngest functions
