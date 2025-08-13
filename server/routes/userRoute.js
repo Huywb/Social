@@ -1,5 +1,5 @@
 import express from 'express'
-import { findUserData, followUser, getUserData, unFollowUser, updateUserData } from '../controllers/User.controller.js'
+import { acceptConnectionRequest, findUserData, followUser, getUserConnection, getUserData, sendConnectionRequest, unFollowUser, updateUserData } from '../controllers/User.controller.js'
 import {protect} from '../middleware/auth.js'
 import { upload } from '../config/multer.js'
 
@@ -11,5 +11,8 @@ Router.post("/update",upload.fields([{name: 'profile', maxCount: 1},{name: 'cove
 Router.post("/discover",protect,findUserData)
 Router.post("/follow",protect,followUser)
 Router.post("/unfollow",protect,unFollowUser)
+Router.post("/connect",protect,sendConnectionRequest)
+Router.post("/accept",protect,acceptConnectionRequest)
+Router.get("/connections",protect,getUserConnection)
 
 export default Router
