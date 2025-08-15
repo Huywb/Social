@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
 import Connection from "../models/Connection.js";
+import sendEmail from "../config/nodemailer.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "Social-2025",eventKey: process.env.INNGEST_EVENT_KEY,
@@ -95,12 +96,20 @@ const sendNewConnectionRequestReminder = inngest.createFunction(
                 <p>Thanks,<br/>Stay Connected</p>
             </div>
             `
+
+            await sendEmail({
+                to: connection.to_user_id.email,
+                subject,
+                body
+            })
         })
+
     }
 )
 // Create an empty array where we'll export future Inngest functions
 export const functions = [
     syncUserCreation,
     syncUserUpdation,
-    syncUserDeletion
+    syncUserDeletion,
+    sendNewConnectionRequestReminder
 ];

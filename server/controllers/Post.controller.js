@@ -1,7 +1,7 @@
 import fs from 'fs'
-import imageKit from '../config/imagekit'
+import imageKit from '../config/imagekit.js'
 import Post from '../models/Post.js'
-import User from '../models/User'
+import User from '../models/User.js'
 
 
 //Add Post
