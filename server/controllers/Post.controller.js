@@ -47,3 +47,22 @@ export const addPost = async(req,res)=>{
         res.json({sucees:false, message:error.message})
     }
 }
+
+//Get Post 
+export const getPost = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const user = await User.findById(userId)
+
+        //user connection and following
+        const userIds = [userId,...user.connections,...user.following]
+        const posts = await Post.find({user: {$in: userIds}}).populate('user').sort({
+            createdAt :-1
+        })
+
+        res.json({success:true,posts})
+    } catch (error) {
+        console.log(error)
+        res.json({sucees:false, message:error.message})
+    }
+}
