@@ -6,6 +6,7 @@ import {inngest,functions} from './inngest/index.js'
 import {serve} from 'inngest/express'
 import { clerkMiddleware } from '@clerk/express'
 import userRouter from './routes/userRoute.js'
+import postRouter from './routes/postRoute.js'
 import { requireAuth } from '@clerk/express';
 
 
@@ -32,6 +33,7 @@ app.use("/api/inngest",(req,res,next)=>{
 },serve({client: inngest, functions}))
 
 app.use("/api/user",userRouter)
+app.use("/api/post",postRouter)
 
 const PORT = process.env.PORT || 4000
 
