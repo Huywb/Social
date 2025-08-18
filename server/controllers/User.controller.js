@@ -1,7 +1,7 @@
 import imageKit from "../config/imagekit.js"
 import Connection from "../models/Connection.js"
 import User from "../models/User.js"
-import Post from '../models.Post.js'
+import Post from '../models/Post.js'
 import fs, { stat } from 'fs'
 
 
