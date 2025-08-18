@@ -37,3 +37,23 @@ export const addStory = async(req,res)=>{
     }
 }
 
+//Get user story
+export const getStories = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const user = await User.findById(userId)
+
+        if(!user){
+            return res.json({success:false, message:"Cannot find user"})
+        }
+        const userIds = [userId,...user.following,...user.connections]
+        const stories = await Story.find({
+            user: {$in: userIds}
+        }).populate("user").sort({createdAt: -1})
+
+        res.json({success:true, stories})
+    } catch (error) {
+        console.log(error)
+        res.json({success:false,message:error.message})
+    }
+}
