@@ -34,6 +34,8 @@ app.use("/api/inngest",(req,res,next)=>{
 
 app.use("/api/user",userRouter)
 app.use("/api/post",postRouter)
+app.use("/api/comment",postRouter)
+app.use("/api/getP",postRouter)
 
 const PORT = process.env.PORT || 4000
 
