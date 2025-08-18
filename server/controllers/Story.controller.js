@@ -2,6 +2,7 @@ import fs from 'fs'
 import imageKit from '../config/imagekit'
 import Story from '../models/Story.js'
 import User from '../models/User.js'
+import { inngest } from '../inngest/index.js'
 
 // Add user story 
 export const addStory = async(req,res)=>{
@@ -26,6 +27,11 @@ export const addStory = async(req,res)=>{
             media_type,
             media_url,
             background_color
+        })
+
+        await inngest.send({
+            name: 'app/story.delete',
+            data: {storyId : story._id}
         })
 
         res.json({success:true, message:"Add story success"})
