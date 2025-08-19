@@ -96,3 +96,15 @@ export const getChatMessages = async(req,res)=>{
     }
 } 
 
+//User Recent Message
+export const getUserRecentMesages = async(req,res)=>{
+    try {
+        const {userId} = req.auth()
+        const messages = await Message.find({to_user_id: userId}).populate('from_user_id to_user_id').sort({created_at: -1})
+
+        res.json({success:true, messages})
+    } catch (error) {
+    console.log(error)
+    res.json({success:false,mesage:error.message})   
+    }
+}
