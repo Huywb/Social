@@ -7,6 +7,8 @@ import {serve} from 'inngest/express'
 import { clerkMiddleware } from '@clerk/express'
 import userRouter from './routes/userRoute.js'
 import postRouter from './routes/postRoute.js'
+import storyRouter from './routes/storyRoute.js'
+import messageRouter from './routes/messageRoute.js'
 import { requireAuth } from '@clerk/express';
 
 
@@ -34,8 +36,8 @@ app.use("/api/inngest",(req,res,next)=>{
 
 app.use("/api/user",userRouter)
 app.use("/api/post",postRouter)
-app.use("/api/comment",postRouter)
-app.use("/api/getP",postRouter)
+app.use("/api/story",storyRouter)
+app.use("/api/message",messageRouter)
 
 const PORT = process.env.PORT || 4000
 
